@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Billing System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .item-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .item-card:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <a href="reports.html">hello</a>
+    <div class="container mt-4">
+        <h2 class="text-center">Restaurant Billing System</h2>
+        
+        <div class="row" id="menu-items">
+            <!-- Items will be dynamically loaded here -->
+        </div>
+
+        <h3 class="mt-4">Bill</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="bill-items">
+                <!-- Selected items will be shown here -->
+            </tbody>
+        </table>
+        <h4 class="text-end">Grand Total: <span id="grand-total">0</span></h4>
+        <button class="btn btn-primary" onclick="printBill()">Print Bill</button>
+    </div>
+
+    <script>
+    let items = [
+        { id: 1, name: "Pizza", price: 10, image: "pizza.jpg" },
+        { id: 2, name: "Burger", price: 5, image: "burger.jpg" },
+        { id: 3, name: "Pasta", price: 7, image: "pasta.jpg" },
+        { id: 4, name: "Salad", price: 6, image: "salad.jpg" },
+        { id: 5, name: "Sushi", price: 12, image: "sushi.jpg" },
+        { id: 6, name: "Steak", price: 20, image: "steak.jpg" },
+        { id: 7, name: "Tacos", price: 8, image: "tacos.jpg" },
+        { id: 8, name: "Sandwich", price: 5, image: "sandwich.jpg" },
+        { id: 9, name: "Soup", price: 4, image: "soup.jpg" },
+        { id: 10, name: "Fries", price: 3, image: "fries.jpg" },
+        { id: 11, name: "Ice Cream", price: 5, image: "icecream.jpg" },
+        { id: 12, name: "Cake", price: 6, image: "cake.jpg" },
+        { id: 13, name: "Coffee", price: 2, image: "coffee.jpg" },
+        { id: 14, name: "Tea", price: 2, image: "tea.jpg" },
+        { id: 15, name: "Juice", price: 3, image: "juice.jpg" },
+        { id: 16, name: "Smoothie", price: 4, image: "smoothie.jpg" },
+        { id: 17, name: "Pancakes", price: 7, image: "pancakes.jpg" },
+        { id: 18, name: "Waffles", price: 7, image: "waffles.jpg" },
+        { id: 19, name: "Omelette", price: 6, image: "omelette.jpg" },
+        { id: 20, name: "Bacon", price: 5, image: "bacon.jpg" }
+    ];
+
+        let bill = [];
+        let salesData = {};
+
+        function loadMenu() {
+            const menu = document.getElementById("menu-items");
+            menu.innerHTML = "";
+            items.forEach(item => {
+                menu.innerHTML += `
+                    <div class="col-md-4">
+                        <div class="card item-card" onclick="addToBill(${item.id})">
+                            <!-- <img src="${item.image}" class="card-img-top" alt="${item.name}"> -->
+                            <div class="card-body">
+                                <h5 class="card-title">${item.name}</h5>
+                                <p class="card-text">$${item.price}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addToBill(id) {
+            let item = items.find(i => i.id === id);
+            let billItem = bill.find(i => i.id === id);
+            
+            if (billItem) {
+                billItem.quantity++;
+            } else {
+                bill.push({ ...item, quantity: 1 });
+            }
+            updateBill();
+        }
+
+        function updateBill() {
+            const billTable = document.getElementById("bill-items");
+            const grandTotalEl = document.getElementById("grand-total");
+            let grandTotal = 0;
+
+            billTable.innerHTML = "";
+            bill.forEach(item => {
+                let total = item.price * item.quantity;
+                grandTotal += total;
+                billTable.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.quantity} <button class="btn btn-warning btn-sm" onclick="decreaseQuantity(${item.id})">-</button></td>
+                        <td>$${item.price}</td>
+                        <td>$${total}</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="removeItem(${item.id})">Remove</button></td>
+                    </tr>
+                `;
+            });
+            grandTotalEl.innerText = grandTotal;
+        }
+
+        function decreaseQuantity(id) {
+            let billItem = bill.find(i => i.id === id);
+            if (billItem && billItem.quantity > 1) {
+                billItem.quantity--;
+            } else {
+                removeItem(id);
+            }
+            updateBill();
+        }
+
+        function removeItem(id) {
+            bill = bill.filter(i => i.id !== id);
+            updateBill();
+        }
+
+        // function printBill() {
+            // let date = new Date().toISOString().split("T")[0];
+            // let billNumber = Math.floor(Math.random() * 100000);
+            // let grandTotal = document.getElementById("grand-total").innerText;
+            
+            // if (!salesData[date]) salesData[date] = [];
+            // salesData[date].push({ billNumber, grandTotal });
+            // localStorage.setItem("salesData", JSON.stringify(salesData));
+
+            // let printContent = `<h2>Restaurant Bill</h2><h4>Bill No: ${billNumber}</h4><h4>Date: ${date}</h4><ul>`;
+            // bill.forEach(item => {
+            //     printContent += `<li>${item.name} x ${item.quantity} = $${item.price * item.quantity}</li>`;
+            // });
+            // printContent += `</ul><h3>Total: $${grandTotal}</h3>`;
+            // let printWindow = window.open("", "", "width=600,height=400");
+            // printWindow.document.write(printContent);
+            // printWindow.document.close();
+            // printWindow.print();
+            // bill = [];
+            // updateBill();
+    //         function printBill() {
+    // let date = new Date().toISOString().split("T")[0];
+    // let billNumber = Math.floor(Math.random() * 100000);
+    // let grandTotal = document.getElementById("grand-total").innerText;
+    
+    // if (!salesData[date]) salesData[date] = [];
+    // salesData[date].push({ 
+    //     billNumber, 
+    //     grandTotal, 
+    //     items: [...bill] // Store full item list for reports page
+    // });
+    // localStorage.setItem("salesData", JSON.stringify(salesData));
+
+    // let printContent = `<h2>Restaurant Bill</h2><h4>Bill No: ${billNumber}</h4><h4>Date: ${date}</h4><ul>`;
+    // bill.forEach(item => {
+    //     printContent += `<li>${item.name} x ${item.quantity} = $${item.price * item.quantity}</li>`;
+    // });
+    // printContent += `</ul><h3>Total: $${grandTotal}</h3>`;
+
+    // let blob = new Blob([printContent], { type: "text/html" });
+    
+    // // Allow user to select save location
+    // let fileHandle = document.createElement("a");
+    // fileHandle.href = URL.createObjectURL(blob);
+    // fileHandle.download = `Bill_${billNumber}.html`; // Bill file named as bill number
+    // fileHandle.click();
+
+    // bill = [];
+    // updateBill();
+// }
+
+        // }
+        function printBill() {
+        let date = new Date().toISOString().split("T")[0];  // Get today's date
+        console.log(date);
+        let billNumber = Math.floor(Math.random() * 100000);
+        let grandTotal = document.getElementById("grand-total").innerText;
+        
+        if (!salesData[date]) salesData[date] = [];  // Ensure date entry exists
+        salesData[date].push({ 
+            billNumber, 
+            grandTotal, 
+            date,  // Store the date properly
+            items: [...bill]  // Store items for reports
+        });
+        localStorage.setItem("salesData", JSON.stringify(salesData)); // Save to localStorage
+
+        let printContent = `<h2>Restaurant Bill</h2>
+                            <h4>Bill No: ${billNumber}</h4>
+                            <h4>Date: ${date}</h4>
+                            <ul>`;
+        bill.forEach(item => {
+            printContent += `<li>${item.name} x ${item.quantity} = $${item.price * item.quantity}</li>`;
+        });
+        printContent += `</ul><h3>Total: $${grandTotal}</h3>`;
+
+        let blob = new Blob([printContent], { type: "text/html" });
+        let fileHandle = document.createElement("a");
+        fileHandle.href = URL.createObjectURL(blob);
+        fileHandle.download = `Bill_${billNumber}.html`;  
+        document.body.appendChild(fileHandle);
+        fileHandle.click();
+        document.body.removeChild(fileHandle);
+
+        let printWindow = window.open("", "", "width=600,height=400");
+        printWindow.document.write(printContent);
+        printWindow.document.close();
+        printWindow.print();
+
+        bill = [];
+        updateBill();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        loadMenu();
+        salesData = JSON.parse(localStorage.getItem("salesData")) || {};
+    });
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadMenu();
+            salesData = JSON.parse(localStorage.getItem("salesData")) || {};
+        });
+    </script>
+</body>
+</html>

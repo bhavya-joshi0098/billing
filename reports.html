@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Reports</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Sales Reports</h2>
+
+        <label for="date-filter">Select Date:</label>
+        <input type="date" id="date-filter" class="form-control mb-3" onchange="loadSales()">
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Bill Number</th>
+                    <th>Grand Total ($)</th>
+                </tr>
+            </thead>
+            <tbody id="sales-records">
+                <!-- Sales records will be dynamically inserted here -->
+            </tbody>
+        </table>
+
+        <h3>Most Sold Items Graph</h3>
+        <canvas id="salesChart"></canvas>
+    </div>
+
+    <script>
+        // function loadSales() {
+        //     let salesData = JSON.parse(localStorage.getItem("salesData")) || {};
+        //     let selectedDate = document.getElementById("date-filter").value;
+        //     let tableBody = document.getElementById("sales-records");
+        //     tableBody.innerHTML = "";
+
+        //     let itemCounts = {}; // Object to store items sold count
+
+        //     if (salesData[selectedDate]) {
+        //         salesData[selectedDate].forEach(record => {
+        //             tableBody.innerHTML += `
+        //                 <tr>
+        //                     <td>${selectedDate}</td>
+        //                     <td>${record.billNumber}</td>
+        //                     <td>$${record.grandTotal}</td>
+        //                 </tr>
+        //             `;
+
+        //             // Count item quantities
+        //             record.items.forEach(item => {
+        //                 if (itemCounts[item.name]) {
+        //                     itemCounts[item.name] += item.quantity;
+        //                 } else {
+        //                     itemCounts[item.name] = item.quantity;
+        //                 }
+        //             });
+        //         });
+        //     }
+
+        //     updateGraph(Object.keys(itemCounts), Object.values(itemCounts));
+        // }
+        function loadSales() {
+    let salesData = JSON.parse(localStorage.getItem("salesData")) || {};
+    let selectedDate = document.getElementById("date-filter").value;
+    // console.log(selectedDate);
+    let tableBody = document.getElementById("sales-records");
+    tableBody.innerHTML = "";
+
+    let itemCounts = {};  // Object to store item sales count
+
+    if (salesData[selectedDate]) {
+        salesData[selectedDate].forEach(record => {
+            tableBody.innerHTML += `
+                <tr>
+                    <td>${record.date}</td>
+                    <td>${record.billNumber}</td>
+                    <td>$${record.grandTotal}</td>
+                </tr>
+            `;
+
+            // Count item quantities for the graph
+            // record.items.forEach(item => {
+            //     if (itemCounts[item.name]) {
+            //         itemCounts[item.name] += item.quantity;
+            //     } else {
+            //         itemCounts[item.name] = item.quantity;
+            //     }
+            // });
+        });
+    }
+
+    updateGraph(Object.keys(itemCounts), Object.values(itemCounts));
+}
+
+
+        function updateGraph(labels, data) {
+            let ctx = document.getElementById("salesChart").getContext("2d");
+            if (window.salesChartInstance) {
+                window.salesChartInstance.destroy();
+            }
+            window.salesChartInstance = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: labels, // Item names
+                    datasets: [{
+                        label: "Number of Items Sold",
+                        data: data, // Number of times each item is sold
+                        backgroundColor: "rgba(54, 162, 235, 0.6)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Automatically set today's date on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            let today = new Date().toISOString().split("T")[0];
+            document.getElementById("date-filter").value = today;
+            loadSales();
+        });
+    </script>
+</body>
+</html>
