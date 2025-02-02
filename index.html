@@ -341,7 +341,7 @@
             bottom: 10px;
             right: 10px;
             /* font-size: 30px; */
-            background-color: #000000;
+            background-color: #007bff;
             color: white;
             padding: 10px;
             border-radius: 50%;
@@ -376,6 +376,27 @@
             h5 {
                 font-size: 12px;
             }
+            .item-card {
+        font-size: 11px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+        border: 1px solid #ccc;
+        padding: 16px;
+        margin: 8px;
+        border-radius: 8px;
+    }
+    .item-card.highlight {
+        animation: highlight-animation 1s ease-in-out;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    }
+    .item-card.clicked {
+        background-color: yellow;
+    }
+    @keyframes highlight-animation {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
         }
     </style>
 </body>
