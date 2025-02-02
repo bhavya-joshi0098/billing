@@ -6,12 +6,40 @@
     <title>Sales Reports</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar-brand {
+            color: #ffffff !important;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .table {
+            background-color: #ffffff;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light">
         <a class="navbar-brand" href="index.html">Home</a>
-        <a class="navbar-brand" href="reports.html">reports</a>
-      </nav>
+        <a class="navbar-brand" href="reports.html">Reports</a>
+    </nav>
     <div class="container mt-4">
         <h2 class="text-center">Sales Reports</h2>
 
@@ -34,11 +62,12 @@
 
         <h3>Most Sold Items Graph</h3>
         <canvas id="salesChart" width="400" height="200"></canvas>
+
+        <div class="d-flex justify-content-center mt-4">
+            <button class="btn btn-danger" onclick="clearLocalStorage();">Clear Local Storage</button>
+        </div>
     </div>
-    <!-- <button class="btn btn-danger mt-4" onclick="clearLocalStorage()" style="height: 20px; font-size: 8px;">Clear</button> -->
-    <div class="d-flex justify-content-center mt-4">
-        <button class="btn btn-danger" onclick="clearLocalStorage();" style="height: 20px; font-size: 8px;">Clear</button>
-    </div>
+
     <script src="report_script.js"></script>
 </body>
 </html>
