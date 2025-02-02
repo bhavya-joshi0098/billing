@@ -4,6 +4,7 @@ function scrollToBottom() {
         behavior: 'smooth'
     });
 }
+
 let items = [
     { id: 1, name: "Alu Masala Toasted", price: 40 },
     { id: 2, name: "Alu Butter Toasted", price: 40 },
@@ -61,14 +62,13 @@ function loadMenu() {
     menu.innerHTML = "";
     items.forEach(item => {
         menu.innerHTML += `
-             <div class="item-card" data-id="${item.id}" onclick="addToBill(${item.id}) ">
-            <!-- <img src="${item.image}" class="card-img-top" alt="${item.name}"> -->
-            <div class="card-body">
-                <h5 class="card-title">${item.name}</h5>
-                <p class="card-text">$${item.price}</p>
+            <div class="item-card" data-id="${item.id}" onclick="addToBill(${item.id})">
+                <div class="card-body">
+                    <h5 class="card-title">${item.name}</h5>
+                    <p class="card-text">$${item.price}</p>
+                </div>
             </div>
-        </div>
-            `;
+        `;
     });
 }
 
@@ -101,14 +101,14 @@ function updateBill() {
         let total = item.price * item.quantity;
         grandTotal += total;
         billTable.innerHTML += `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.quantity} <button class="btn btn-warning btn-sm" onclick="decreaseQuantity(${item.id})">-</button></td>
-                    <td>$${item.price}</td>
-                    <td>$${total}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="removeItem(${item.id})">Remove</button></td>
-                </tr>
-            `;
+            <tr>
+                <td>${item.name}</td>
+                <td>${item.quantity} <button class="btn btn-warning btn-sm" onclick="decreaseQuantity(${item.id})">-</button></td>
+                <td>$${item.price}</td>
+                <td>$${total}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="removeItem(${item.id})">Remove</button></td>
+            </tr>
+        `;
     });
     grandTotalEl.innerText = grandTotal;
 }
@@ -128,72 +128,19 @@ function removeItem(id) {
     updateBill();
 }
 
-// function printBill() {
-// let date = new Date().toISOString().split("T")[0];
-// let billNumber = Math.floor(Math.random() * 100000);
-// let grandTotal = document.getElementById("grand-total").innerText;
-
-// if (!salesData[date]) salesData[date] = [];
-// salesData[date].push({ billNumber, grandTotal });
-// localStorage.setItem("salesData", JSON.stringify(salesData));
-
-// let printContent = `<h2>Restaurant Bill</h2><h4>Bill No: ${billNumber}</h4><h4>Date: ${date}</h4><ul>`;
-// bill.forEach(item => {
-//     printContent += `<li>${item.name} x ${item.quantity} = $${item.price * item.quantity}</li>`;
-// });
-// printContent += `</ul><h3>Total: $${grandTotal}</h3>`;
-// let printWindow = window.open("", "", "width=600,height=400");
-// printWindow.document.write(printContent);
-// printWindow.document.close();
-// printWindow.print();
-// bill = [];
-// updateBill();
-//         function printBill() {
-// let date = new Date().toISOString().split("T")[0];
-// let billNumber = Math.floor(Math.random() * 100000);
-// let grandTotal = document.getElementById("grand-total").innerText;
-
-// if (!salesData[date]) salesData[date] = [];
-// salesData[date].push({ 
-//     billNumber, 
-//     grandTotal, 
-//     items: [...bill] // Store full item list for reports page
-// });
-// localStorage.setItem("salesData", JSON.stringify(salesData));
-
-// let printContent = `<h2>Restaurant Bill</h2><h4>Bill No: ${billNumber}</h4><h4>Date: ${date}</h4><ul>`;
-// bill.forEach(item => {
-//     printContent += `<li>${item.name} x ${item.quantity} = $${item.price * item.quantity}</li>`;
-// });
-// printContent += `</ul><h3>Total: $${grandTotal}</h3>`;
-
-// let blob = new Blob([printContent], { type: "text/html" });
-
-// // Allow user to select save location
-// let fileHandle = document.createElement("a");
-// fileHandle.href = URL.createObjectURL(blob);
-// fileHandle.download = `Bill_${billNumber}.html`; // Bill file named as bill number
-// fileHandle.click();
-
-// bill = [];
-// updateBill();
-// }
-
-// }
 function printBill() {
-    let date = new Date().toISOString().split("T")[0];  // Get today's date
-    console.log(date);
+    let date = new Date().toISOString().split("T")[0];
     let billNumber = Math.floor(Math.random() * 100000);
     let grandTotal = document.getElementById("grand-total").innerText;
 
-    if (!salesData[date]) salesData[date] = [];  // Ensure date entry exists
+    if (!salesData[date]) salesData[date] = [];
     salesData[date].push({
         billNumber,
         grandTotal,
-        date,  // Store the date properly
-        items: [...bill]  // Store items for reports
+        date,
+        items: [...bill]
     });
-    localStorage.setItem("salesData", JSON.stringify(salesData)); // Save to localStorage
+    localStorage.setItem("salesData", JSON.stringify(salesData));
 
     let printContent = `<h2>Restaurant Bill</h2>
                         <h4>Bill No: ${billNumber}</h4>
@@ -204,13 +151,13 @@ function printBill() {
     });
     printContent += `</ul><h3>Total: $${grandTotal}</h3>`;
 
-    let blob = new Blob([printContent], { type: "text/html" });
-    let fileHandle = document.createElement("a");
-    fileHandle.href = URL.createObjectURL(blob);
-    fileHandle.download = `Bill_${billNumber}.html`;
-    document.body.appendChild(fileHandle);
-    fileHandle.click();
-    document.body.removeChild(fileHandle);
+        // let blob = new Blob([printContent], { type: "text/html" });
+        // let fileHandle = document.createElement("a");
+        // fileHandle.href = URL.createObjectURL(blob);
+        // fileHandle.download = `Bill_${billNumber}.html`;
+        // document.body.appendChild(fileHandle);
+        // fileHandle.click();
+        // document.body.removeChild(fileHandle);
 
     let printWindow = window.open("", "", "width=600,height=400");
     printWindow.document.write(printContent);
@@ -220,12 +167,6 @@ function printBill() {
     bill = [];
     updateBill();
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadMenu();
-    salesData = JSON.parse(localStorage.getItem("salesData")) || {};
-});
-
 
 document.addEventListener("DOMContentLoaded", () => {
     loadMenu();
