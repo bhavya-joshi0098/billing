@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Billing System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- <style>
         .item-card {
@@ -41,6 +43,10 @@
     <a href="reports.html">hello</a>
     <div class="container mt-4">
         <h2 class="text-center">Restaurant Billing System</h2>
+        <div class="help-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="Help"
+        onclick="scrollToBottom()">
+        <i class="fa-solid fa-arrow-down"></i>
+    </div>
         <div id="menu-items"  class="container d-">
             <!-- Items will be dynamically loaded here -->
         </div>
@@ -65,6 +71,12 @@
     </div>
 
     <script>
+        function scrollToBottom() {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
     let items = [
         { id: 1, name: "Alu Masala Toasted", price: 40 },
  { id: 2, name: "Alu Butter Toasted", price: 40 },
@@ -303,7 +315,45 @@
             grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
             gap: 16px;
         }
+        .help-icon {
+            position: fixed;
+            z-index: 9999;
+            bottom: 20px;
+            right: 20px;
+            font-size: 30px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .help-icon:hover {
+            transform: scale(1.1);
+        }
+
         @media screen and (max-width: 768px) {
+            .help-icon {
+            position: fixed;
+            z-index: 9999;
+            bottom: 20px;
+            right: 20px;
+            font-size: 30px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .help-icon:hover {
+            transform: scale(1.1);
+        }
+
             #menu-items {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
