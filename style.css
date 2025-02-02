@@ -92,26 +92,8 @@
         border-radius: 8px;
     }
 
-    .item-card.highlight {
-        animation: highlight-animation 1s ease-in-out;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    }
-
     .item-card.clicked {
         background-color: yellow;
-    }
-
-    @keyframes highlight-animation {
-        0% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.1);
-        }
-
-        100% {
-            transform: scale(1);
-        }
+        transition: background-color 0.2s ease-in-out;
     }
 }

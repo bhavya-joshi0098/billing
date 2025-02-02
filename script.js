@@ -61,7 +61,7 @@ function loadMenu() {
     menu.innerHTML = "";
     items.forEach(item => {
         menu.innerHTML += `
-             <div class="item-card" onclick="addToBill(${item.id}) ">
+             <div class="item-card" data-id="${item.id}" onclick="addToBill(${item.id}) ">
             <!-- <img src="${item.image}" class="card-img-top" alt="${item.name}"> -->
             <div class="card-body">
                 <h5 class="card-title">${item.name}</h5>
@@ -80,6 +80,13 @@ function addToBill(id) {
         billItem.quantity++;
     } else {
         bill.push({ ...item, quantity: 1 });
+    }
+    let clickedItem = document.querySelector(`.item-card[data-id="${id}"]`);
+    if (clickedItem) {
+        clickedItem.classList.add("clicked");
+        setTimeout(() => {
+            clickedItem.classList.remove("clicked");
+        }, 2000);
     }
     updateBill();
 }
