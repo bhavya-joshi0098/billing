@@ -86,7 +86,7 @@ function addToBill(id) {
         clickedItem.classList.add("clicked");
         setTimeout(() => {
             clickedItem.classList.remove("clicked");
-        }, 2000);
+        }, 500);
     }
     updateBill();
 }
