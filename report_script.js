@@ -2,9 +2,11 @@ function loadSales() {
     let salesData = JSON.parse(localStorage.getItem("salesData")) || {};
     let selectedDate = document.getElementById("date-filter").value;
     let tableBody = document.getElementById("sales-records");
+    let greatGrandTotalElement = document.getElementById("great-grand-total");
     tableBody.innerHTML = "";
 
     let itemCounts = {};  // Object to store item sales count
+    let greatGrandTotal = 0;  // Variable to store the great grand total
 
     if (salesData[selectedDate]) {
         salesData[selectedDate].forEach(record => {
@@ -16,6 +18,9 @@ function loadSales() {
                 </tr>
             `;
 
+            // Add to the great grand total
+            greatGrandTotal += record.grandTotal;
+
             // Count item quantities for the graph
             record.items.forEach(item => {
                 if (itemCounts[item.name]) {
@@ -26,6 +31,9 @@ function loadSales() {
             });
         });
     }
+
+    // Update the great grand total in the HTML
+    greatGrandTotalElement.textContent = greatGrandTotal;
 
     updateGraph(Object.keys(itemCounts), Object.values(itemCounts));
 }
@@ -58,6 +66,10 @@ function updateGraph(labels, data) {
     });
 }
 
+function clearLocalStorage() {
+    localStorage.clear();
+    loadSales();
+}
 // Automatically set today's date on page load
 document.addEventListener("DOMContentLoaded", () => {
     let today = new Date().toISOString().split("T")[0];

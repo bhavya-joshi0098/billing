@@ -30,11 +30,15 @@
                 <!-- Sales records will be dynamically inserted here -->
             </tbody>
         </table>
+        <h4 class="text-end">Great Grand Total: $<span id="great-grand-total">0</span></h4>
 
         <h3>Most Sold Items Graph</h3>
         <canvas id="salesChart" width="400" height="200"></canvas>
     </div>
-
+    <!-- <button class="btn btn-danger mt-4" onclick="clearLocalStorage()" style="height: 20px; font-size: 8px;">Clear</button> -->
+    <div class="d-flex justify-content-center mt-4">
+        <button class="btn btn-danger" onclick="clearLocalStorage();" style="height: 20px; font-size: 8px;">Clear</button>
+    </div>
     <script src="report_script.js"></script>
 </body>
 </html>
