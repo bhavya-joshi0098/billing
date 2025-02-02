@@ -6,7 +6,7 @@
     <title>Restaurant Billing System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+    <!-- <style>
         .item-card {
             cursor: pointer;
             transition: transform 0.2s;
@@ -14,14 +14,34 @@
         .item-card:hover {
             transform: scale(1.05);
         }
-    </style>
+        /* .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 16px;
+        } */
+        @media screen and (max-width: 768px) {
+            .item-card {
+                display: flex;
+                max-width: 100px;
+                font-size: 10px;
+            }
+            h5{
+                font-size: 10px;
+            }
+            #menu-items {
+            display: flex;
+            width: 200px;
+            height: 1000px;
+        }
+            
+        }
+    </style> -->
 </head>
 <body>
     <a href="reports.html">hello</a>
     <div class="container mt-4">
         <h2 class="text-center">Restaurant Billing System</h2>
-        
-        <div class="row" id="menu-items">
+        <div id="menu-items"  class="container d-">
             <!-- Items will be dynamically loaded here -->
         </div>
 
@@ -47,51 +67,51 @@
     <script>
     let items = [
         { id: 1, name: "Alu Masala Toasted", price: 40 },
-  { id: 2, name: "Alu Butter Toasted", price: 40 },
-  { id: 3, name: "Veg Three Slices", price: 50 },
-  { id: 4, name: "Veg Toasted", price: 50 },
-  { id: 5, name: "Masala Veg Toasted", price: 50 },
-  { id: 6, name: "Veg Three Slices with Cheese", price: 70 },
-  { id: 7, name: "Veg Double Cheese Sandwich", price: 80 },
-  { id: 8, name: "Masala Veg Toasted with Cheese", price: 80 },
-  { id: 9, name: "Sezwan Garlic Toasted", price: 60 },
-  { id: 10, name: "Sezwan Garlic Toasted with Cheese", price: 90 },
-  { id: 11, name: "Garlic Cheese Brust", price: 90 },
-  { id: 12, name: "Green Chilli Cheese", price: 90 },
-  { id: 13, name: "Wafer's Cheese with Veg Sandwich", price: 90 },
-  { id: 14, name: "Veg Cheese Grilled", price: 90 },
-  { id: 15, name: "Pizza Cheese Sandwich", price: 90 },
-  { id: 16, name: "Mayonise with Cheese", price: 90 },
-  { id: 17, name: "Panner Tikka Cheese", price: 90 },
-  { id: 18, name: "Peanut Corn Cheese", price: 90 },
-  { id: 19, name: "Maxican Chilli Cheese", price: 90 },
-  { id: 20, name: "Italian Pasta Cheese", price: 90 },
-  { id: 21, name: "Garlic Bread", price: 80 },
-  { id: 22, name: "Bread Butter", price: 20 },
-  { id: 23, name: "Butter Jam", price: 30 },
-  { id: 24, name: "Chocolate Bread", price: 40 },
-  { id: 25, name: "Chocolate Cheese Bread", price: 60 },
-  { id: 26, name: "Jam Cheese", price: 60 },
-  { id: 27, name: "Pineapple Chocolate Cheese", price: 80 },
-  { id: 28, name: "Margreta Cheese Pizza", price: 100 },
-  { id: 29, name: "Margreta Brust Cheese Pizza", price: 120 },
-  { id: 30, name: "Veg Cheese Pizza", price: 120 },
-  { id: 31, name: "Italian Cheese Pizza", price: 140 },
-  { id: 32, name: "Italian Pasta Cheese Pizza", price: 160 },
-  { id: 33, name: "Veg Thick Crushed Cheese Pizza", price: 140 },
-  { id: 34, name: "American Corn Cheese Pizza", price: 160 },
-  { id: 35, name: "Sezwan Garlic Cheese Pizza", price: 160 },
-  { id: 36, name: "Panner Tikka Cheese Pizza", price: 170 },
-  { id: 37, name: "Maxican Cheese Pizza", price: 170 },
-  { id: 38, name: "Wafers Cheese Pizza", price: 170 },
-  { id: 39, name: "Chocolate Cheese Pizza", price: 170 },
-  { id: 40, name: "Madhav Spe. Cheese Pizza", price: 200 },
-  { id: 41, name: "Veg Burger", price: 70 },
-  { id: 42, name: "Veg Double Cheese Burger", price: 80 },
-  { id: 43, name: "American Corn Burger", price: 80 },
-  { id: 44, name: "Veg Crispy Cheese Burger", price: 80 },
-  { id: 45, name: "Sezwan Garlic Burger", price: 80 },
-  { id: 46, name: "Panner King Burger", price: 80 }
+ { id: 2, name: "Alu Butter Toasted", price: 40 },
+ { id: 3, name: "Veg Three Slices", price: 50 },
+ { id: 4, name: "Veg Toasted", price: 50 },
+ { id: 5, name: "Masala Veg Toasted", price: 50 },
+ { id: 6, name: "Veg Three Slices with Cheese", price: 70 },
+ { id: 7, name: "Veg Double Cheese Sandwich", price: 80 },
+ { id: 8, name: "Masala Veg Toasted with Cheese", price: 80 },
+ { id: 9, name: "Sezwan Garlic Toasted", price: 60 },
+ { id: 10, name: "Sezwan Garlic Toasted with Cheese", price: 90 },
+ { id: 11, name: "Garlic Cheese Brust", price: 90 },
+ { id: 12, name: "Green Chilli Cheese", price: 90 },
+ { id: 13, name: "Wafer's Cheese with Veg Sandwich", price: 90 },
+ { id: 14, name: "Veg Cheese Grilled", price: 90 },
+ { id: 15, name: "Pizza Cheese Sandwich", price: 90 },
+ { id: 16, name: "Mayonise with Cheese", price: 90 },
+ { id: 17, name: "Panner Tikka Cheese", price: 90 },
+ { id: 18, name: "Peanut Corn Cheese", price: 90 },
+ { id: 19, name: "Maxican Chilli Cheese", price: 90 },
+ { id: 20, name: "Italian Pasta Cheese", price: 90 },
+ { id: 21, name: "Garlic Bread", price: 80 },
+ { id: 22, name: "Bread Butter", price: 20 },
+ { id: 23, name: "Butter Jam", price: 30 },
+ { id: 24, name: "Chocolate Bread", price: 40 },
+ { id: 25, name: "Chocolate Cheese Bread", price: 60 },
+ { id: 26, name: "Jam Cheese", price: 60 },
+ { id: 27, name: "Pineapple Chocolate Cheese", price: 80 },
+ { id: 28, name: "Margreta Cheese Pizza", price: 100 },
+ { id: 29, name: "Margreta Brust Cheese Pizza", price: 120 },
+ { id: 30, name: "Veg Cheese Pizza", price: 120 },
+ { id: 31, name: "Italian Cheese Pizza", price: 140 },
+ { id: 32, name: "Italian Pasta Cheese Pizza", price: 160 },
+ { id: 33, name: "Veg Thick Crushed Cheese Pizza", price: 140 },
+ { id: 34, name: "American Corn Cheese Pizza", price: 160 },
+ { id: 35, name: "Sezwan Garlic Cheese Pizza", price: 160 },
+ { id: 36, name: "Panner Tikka Cheese Pizza", price: 170 },
+ { id: 37, name: "Maxican Cheese Pizza", price: 170 },
+ { id: 38, name: "Wafers Cheese Pizza", price: 170 },
+ { id: 39, name: "Chocolate Cheese Pizza", price: 170 },
+ { id: 40, name: "Madhav Spe. Cheese Pizza", price: 200 },
+ { id: 41, name: "Veg Burger", price: 70 },
+ { id: 42, name: "Veg Double Cheese Burger", price: 80 },
+ { id: 43, name: "American Corn Burger", price: 80 },
+ { id: 44, name: "Veg Crispy Cheese Burger", price: 80 },
+ { id: 45, name: "Sezwan Garlic Burger", price: 80 },
+ { id: 46, name: "Panner King Burger", price: 80 }
     ];
 
         let bill = [];
@@ -102,15 +122,13 @@
             menu.innerHTML = "";
             items.forEach(item => {
                 menu.innerHTML += `
-                    <div class="col-md-4">
-                        <div class="card item-card" onclick="addToBill(${item.id})">
-                            <!-- <img src="${item.image}" class="card-img-top" alt="${item.name}"> -->
-                            <div class="card-body">
-                                <h5 class="card-title">${item.name}</h5>
-                                <p class="card-text">$${item.price}</p>
-                            </div>
-                        </div>
-                    </div>
+                 <div class="item-card" onclick="addToBill(${item.id}) ">
+                <!-- <img src="${item.image}" class="card-img-top" alt="${item.name}"> -->
+                <div class="card-body">
+                    <h5 class="card-title">${item.name}</h5>
+                    <p class="card-text">$${item.price}</p>
+                </div>
+            </div>
                 `;
             });
         }
@@ -268,5 +286,47 @@
             salesData = JSON.parse(localStorage.getItem("salesData")) || {};
         });
     </script>
+    <style>
+        .item-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid #ccc;
+            padding: 16px;
+            margin: 8px;
+            border-radius: 8px;
+        }
+        .item-card:hover {
+            transform: scale(1.05);
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 16px;
+        }
+        @media screen and (max-width: 768px) {
+            #menu-items {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+
+                /* flex-wrap: wrap; */
+                /* justify-content: center; */
+            }
+            .card-container {
+                display: flex;
+                flex-wrap: wrap;
+                /* background-color: black; */
+                /* max-width: 200px; */
+                /* grid-template-columns: repeat(3, 1fr); */
+                /* grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); */
+
+            }
+            .item-card {
+                font-size: 8px;
+            }
+            h5 {
+                font-size: 8px;
+            }
+        }
+    </style>
 </body>
 </html>
