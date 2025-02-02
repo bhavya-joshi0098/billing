@@ -19,7 +19,7 @@ function loadSales() {
             `;
 
             // Add to the great grand total
-            greatGrandTotal += record.grandTotal;
+            greatGrandTotal += parseFloat(record.grandTotal);
 
             // Count item quantities for the graph
             record.items.forEach(item => {
@@ -33,7 +33,7 @@ function loadSales() {
     }
 
     // Update the great grand total in the HTML
-    greatGrandTotalElement.textContent = greatGrandTotal;
+    greatGrandTotalElement.textContent = greatGrandTotal.toFixed(2);
 
     updateGraph(Object.keys(itemCounts), Object.values(itemCounts));
 }
@@ -67,9 +67,11 @@ function updateGraph(labels, data) {
 }
 
 function clearLocalStorage() {
-    localStorage.clear();
+    localStorage.removeItem("salesData");
+    localStorage.removeItem("billNumber");
     loadSales();
 }
+
 // Automatically set today's date on page load
 document.addEventListener("DOMContentLoaded", () => {
     let today = new Date().toISOString().split("T")[0];

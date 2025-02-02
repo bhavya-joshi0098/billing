@@ -1,3 +1,4 @@
+// filepath: /home/bhavya/Documents/projects/billing_software/billing/script.js
 function scrollToBottom() {
     window.scrollTo({
         top: document.body.scrollHeight,
@@ -55,7 +56,8 @@ let items = [
 ];
 
 let bill = [];
-let salesData = {};
+let salesData = JSON.parse(localStorage.getItem("salesData")) || {};
+let billNumber = parseInt(localStorage.getItem("billNumber")) || 1;
 
 function loadMenu() {
     const menu = document.getElementById("menu-items");
@@ -130,20 +132,20 @@ function removeItem(id) {
 
 function printBill() {
     let date = new Date().toISOString().split("T")[0];
-    let billNumber = Math.floor(Math.random() * 100000);
     let grandTotal = document.getElementById("grand-total").innerText;
 
     if (!salesData[date]) salesData[date] = [];
     salesData[date].push({
-        billNumber,
+        billNumber: billNumber.toString().padStart(4, '0'),
         grandTotal,
         date,
         items: [...bill]
     });
     localStorage.setItem("salesData", JSON.stringify(salesData));
+    localStorage.setItem("billNumber", ++billNumber);
 
     let printContent = `<h2>Restaurant Bill</h2>
-                        <h4>Bill No: ${billNumber}</h4>
+                        <h4>Bill No: ${billNumber.toString().padStart(4, '0')}</h4>
                         <h4>Date: ${date}</h4>
                         <ul>`;
     bill.forEach(item => {
@@ -151,13 +153,13 @@ function printBill() {
     });
     printContent += `</ul><h3>Total: $${grandTotal}</h3>`;
 
-        // let blob = new Blob([printContent], { type: "text/html" });
-        // let fileHandle = document.createElement("a");
-        // fileHandle.href = URL.createObjectURL(blob);
-        // fileHandle.download = `Bill_${billNumber}.html`;
-        // document.body.appendChild(fileHandle);
-        // fileHandle.click();
-        // document.body.removeChild(fileHandle);
+    let blob = new Blob([printContent], { type: "text/html" });
+    let fileHandle = document.createElement("a");
+    fileHandle.href = URL.createObjectURL(blob);
+    fileHandle.download = `Bill_${billNumber.toString().padStart(4, '0')}.html`;
+    document.body.appendChild(fileHandle);
+    fileHandle.click();
+    document.body.removeChild(fileHandle);
 
     let printWindow = window.open("", "", "width=600,height=400");
     printWindow.document.write(printContent);
