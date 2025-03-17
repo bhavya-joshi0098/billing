@@ -10,6 +10,7 @@
     <style>
         body {
             background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
         }
         .navbar {
             background-color: #343a40;
@@ -23,14 +24,20 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
         .item-card {
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             border: 1px solid #ccc;
             padding: 16px;
-            margin: 8px;
             border-radius: 8px;
             background-color: #f8f9fa;
+            text-align: center;
         }
         .item-card:hover {
             transform: scale(1.05);
@@ -38,16 +45,15 @@
         }
         .help-icon {
             position: fixed;
-            z-index: 9999;
-            bottom: 10px;
-            right: 10px;
+            bottom: 15px;
+            right: 15px;
             background-color: #343a40;
             color: white;
-            padding: 10px;
+            padding: 12px;
             border-radius: 50%;
             cursor: pointer;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s;
         }
         .help-icon:hover {
             transform: scale(1.1);
@@ -55,19 +61,19 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-light">
-        <a class="navbar-brand" href="index.html">Home</a>
-        <a class="navbar-brand" href="reports.html">Reports</a>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #57b9e7;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Billing System</a>
+        </div>
     </nav>
     <div class="container mt-4">
         <h2 class="text-center">Restaurant Billing System</h2>
-        <div class="help-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="Help" onclick="scrollToBottom()">
+        <div class="help-icon" onclick="scrollToBottom()">
             <i class="fa-solid fa-arrow-down"></i>
         </div>
-        <div id="menu-items" class="container d-">
+        <div id="menu-items" class="menu-grid">
             <!-- Items will be dynamically loaded here -->
         </div>
-
         <h3 class="mt-4">Bill</h3>
         <table class="table table-bordered">
             <thead>
@@ -76,6 +82,7 @@
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Total</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="bill-items">
@@ -85,7 +92,6 @@
         <h4 class="text-end">Grand Total: <span id="grand-total">0</span></h4>
         <button class="btn btn-primary" onclick="printBill()">Print Bill</button>
     </div>
-
     <script src="script.js"></script>
 </body>
-</html> 
+</html>

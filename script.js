@@ -67,7 +67,7 @@ function loadMenu() {
             <div class="item-card" data-id="${item.id}" onclick="addToBill(${item.id})">
                 <div class="card-body">
                     <h5 class="card-title">${item.name}</h5>
-                    <p class="card-text">$${item.price}</p>
+                    <p class="card-text">₹${item.price}</p>
                 </div>
             </div>
         `;
@@ -106,8 +106,8 @@ function updateBill() {
             <tr>
                 <td>${item.name}</td>
                 <td>${item.quantity} <button class="btn btn-warning btn-sm" onclick="decreaseQuantity(${item.id})">-</button></td>
-                <td>$${item.price}</td>
-                <td>$${total}</td>
+                <td>₹${item.price}</td>
+                <td>₹${total}</td>
                 <td><button class="btn btn-danger btn-sm" onclick="removeItem(${item.id})">Remove</button></td>
             </tr>
         `;
@@ -144,14 +144,46 @@ function printBill() {
     localStorage.setItem("salesData", JSON.stringify(salesData));
     localStorage.setItem("billNumber", ++billNumber);
 
-    let printContent = `<h2>Restaurant Bill</h2>
-                        <h4>Bill No: ${billNumber.toString().padStart(4, '0')}</h4>
-                        <h4>Date: ${date}</h4>
-                        <ul>`;
+    let printContent = `
+        <style>
+            body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+            h2, h4 { margin: 5px 0; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            th, td { border: 1px solid black; padding: 10px; text-align: center; }
+            th { background-color: #007bff; color: white; }
+            tfoot td { font-weight: bold; }
+        </style>
+        <h2>Madhav Sandwich & Pizza's</h2>
+        <h4>Bill No: ${billNumber.toString().padStart(4, '0')}</h4>
+        <h4>Date: ${date}</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Price (₹)</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
     bill.forEach(item => {
-        printContent += `<li>${item.name} x ${item.quantity} = $${item.price * item.quantity}</li>`;
+        printContent += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${item.price * item.quantity}</td>
+                </tr>`;
     });
-    printContent += `</ul><h3>Total: $${grandTotal}</h3>`;
+
+    printContent += `
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"><strong>Total</strong></td>
+                    <td>₹${grandTotal}</td>
+                </tr>
+            </tfoot>
+        </table>`;
 
     let blob = new Blob([printContent], { type: "text/html" });
     let fileHandle = document.createElement("a");
@@ -169,6 +201,7 @@ function printBill() {
     bill = [];
     updateBill();
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     loadMenu();

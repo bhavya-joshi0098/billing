@@ -12,9 +12,9 @@ function loadSales() {
         salesData[selectedDate].forEach(record => {
             tableBody.innerHTML += `
                 <tr>
-                    <td>${record.date}</td>
-                    <td>${record.billNumber}</td>
-                    <td>$${record.grandTotal}</td>
+                    <td>₹${record.date}</td>
+                    <td>₹${record.billNumber}</td>
+                    <td>₹${record.grandTotal}</td>
                 </tr>
             `;
 

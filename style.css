@@ -96,11 +96,16 @@
         background-color: yellow;
         transition: background-color 0.01s ease-in-out;
     }
+    .item-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .item-card {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
 }
-/* .item-card {
-    cursor: pointer;
-    transition: transform 0.2s;
-}
+/* 
 .item-card:hover {
     transform: scale(1.05);
 }
