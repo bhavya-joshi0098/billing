@@ -92,8 +92,13 @@
                 <!-- Selected items will be shown here -->
             </tbody>
         </table>
-        <h4 class="text-end">Grand Total: <span id="grand-total">0</span></h4>
-        <button class="btn btn-primary" onclick="printBill()">Print Bill</button>
+        <!-- ...existing code... -->
+<h4 class="text-end">Grand Total: <span id="grand-total">0</span></h4>
+<div class="d-flex justify-content-start align-items-center">
+    <button class="btn btn-primary" onclick="printBill()">Print Bill</button>
+    <input type="number" id="deduction-amount" class="form-control me-2" placeholder="Deduction Amount" style="width: 150px; margin-left: 30px;">
+</div>
+<!-- ...existing code... -->
     </div>
     <script src="script.js"></script>
 </body>

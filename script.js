@@ -129,10 +129,17 @@ function removeItem(id) {
     bill = bill.filter(i => i.id !== id);
     updateBill();
 }
+// let date = new Date().toISOString().split("T")[0];
+// let grandTotal = parseFloat(document.getElementById("grand-total").innerText);
+// let deductionAmount = parseFloat(document.getElementById("deduction-amount").value) || 0;
+// let finalTotal = grandTotal - deductionAmount;
 
 function printBill() {
     let date = new Date().toISOString().split("T")[0];
-    let grandTotal = document.getElementById("grand-total").innerText;
+    // let grandTotal = document.getElementById("grand-total").innerText;
+    let grandTotal = parseFloat(document.getElementById("grand-total").innerText);
+    let deductionAmount = parseFloat(document.getElementById("deduction-amount").value) || 0;
+    let finalTotal = grandTotal - (grandTotal * (deductionAmount / 100));
 
     if (!salesData[date]) salesData[date] = [];
     salesData[date].push({
@@ -181,6 +188,10 @@ function printBill() {
                 <tr>
                     <td colspan="2"><strong>Total</strong></td>
                     <td>₹${grandTotal}</td>
+                </tr>
+                 <tr>
+                    <td colspan="2"><strong>Grand Total</strong></td>
+                    <td>₹${finalTotal},(${deductionAmount}%off)</td>
                 </tr>
             </tfoot>
         </table>`;
