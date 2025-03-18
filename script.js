@@ -196,13 +196,13 @@ function printBill() {
             </tfoot>
         </table>`;
 
-    let blob = new Blob([printContent], { type: "text/html" });
-    let fileHandle = document.createElement("a");
-    fileHandle.href = URL.createObjectURL(blob);
-    fileHandle.download = `Bill_${billNumber.toString().padStart(4, '0')}.html`;
-    document.body.appendChild(fileHandle);
-    fileHandle.click();
-    document.body.removeChild(fileHandle);
+    // let blob = new Blob([printContent], { type: "text/html" });
+    // let fileHandle = document.createElement("a");
+    // fileHandle.href = URL.createObjectURL(blob);
+    // fileHandle.download = `Bill_${billNumber.toString().padStart(4, '0')}.html`;
+    // document.body.appendChild(fileHandle);
+    // fileHandle.click();
+    // document.body.removeChild(fileHandle);
 
     let printWindow = window.open("", "", "width=600,height=400");
     printWindow.document.write(printContent);
