@@ -6,7 +6,7 @@ function scrollToBottom() {
     });
 }
 
-let items = [
+let englishItems = [
     { id: 1, name: "Alu Masala Toasted", price: 40 },
     { id: 2, name: "Alu Butter Toasted", price: 40 },
     { id: 3, name: "Veg Three Slices", price: 50 },
@@ -54,6 +54,71 @@ let items = [
     { id: 45, name: "Sezwan Garlic Burger", price: 80 },
     { id: 46, name: "Panner King Burger", price: 80 }
 ];
+
+let gujaratiItems =[
+    { "id": 1, "name": "આલુ મસાલા ટોસ્ટેડ", "price": 40 },
+    { "id": 2, "name": "આલુ બટર ટોસ્ટેડ", "price": 40 },
+    { "id": 3, "name": "વેજ થ્રી સ્લાઇસ", "price": 50 },
+    { "id": 4, "name": "વેજ ટોસ્ટેડ", "price": 50 },
+    { "id": 5, "name": "મસાલા વેજ ટોસ્ટેડ", "price": 50 },
+    { "id": 6, "name": "વેજ થ્રી સ્લાઇસ વિથ ચીઝ", "price": 70 },
+    { "id": 7, "name": "વેજ ડબલ ચીઝ સેન્ડવિચ", "price": 80 },
+    { "id": 8, "name": "મસાલા વેજ ટોસ્ટેડ વિથ ચીઝ", "price": 80 },
+    { "id": 9, "name": "શેજવાન ગાર્લિક ટોસ્ટેડ", "price": 60 },
+    { "id": 10, "name": "શેજવાન ગાર્લિક ટોસ્ટેડ વિથ ચીઝ", "price": 90 },
+    { "id": 11, "name": "ગાર્લિક ચીઝ બર્સ્ટ", "price": 90 },
+    { "id": 12, "name": "ગ્રીન ચિલી ચીઝ", "price": 90 },
+    { "id": 13, "name": "વેફર્સ ચીઝ વિથ વેજ સેન્ડવિચ", "price": 90 },
+    { "id": 14, "name": "વેજ ચીઝ ગ્રિલ્ડ", "price": 90 },
+    { "id": 15, "name": "પિઝ્ઝા ચીઝ સેન્ડવિચ", "price": 90 },
+    { "id": 16, "name": "મેયોનીઝ વિથ ચીઝ", "price": 90 },
+    { "id": 17, "name": "પનીર ટિક્કા ચીઝ", "price": 90 },
+    { "id": 18, "name": "પીનટ કોર્ન ચીઝ", "price": 90 },
+    { "id": 19, "name": "મેક્સિકન ચિલી ચીઝ", "price": 90 },
+    { "id": 20, "name": "ઈટાલિયન પાસ્તા ચીઝ", "price": 90 },
+    { "id": 21, "name": "ગાર્લિક બ્રેડ", "price": 80 },
+    { "id": 22, "name": "બ્રેડ બટર", "price": 20 },
+    { "id": 23, "name": "બટર જામ", "price": 30 },
+    { "id": 24, "name": "ચોકલેટ બ્રેડ", "price": 40 },
+    { "id": 25, "name": "ચોકલેટ ચીઝ બ્રેડ", "price": 60 },
+    { "id": 26, "name": "જામ ચીઝ", "price": 60 },
+    { "id": 27, "name": "પાઈનએપલ ચોકલેટ ચીઝ", "price": 80 },
+    { "id": 28, "name": "માર્ગ્રેટા ચીઝ પિઝ્ઝા", "price": 100 },
+    { "id": 29, "name": "માર્ગ્રેટા બર્સ્ટ ચીઝ પિઝ્ઝા", "price": 120 },
+    { "id": 30, "name": "વેજ ચીઝ પિઝ્ઝા", "price": 120 },
+    { "id": 31, "name": "ઈટાલિયન ચીઝ પિઝ્ઝા", "price": 140 },
+    { "id": 32, "name": "ઈટાલિયન પાસ્તા ચીઝ પિઝ્ઝા", "price": 160 },
+    { "id": 33, "name": "વેજ થિક ક્રસ્ટ ચીઝ પિઝ્ઝા", "price": 140 },
+    { "id": 34, "name": "અમેરિકન કોર્ન ચીઝ પિઝ્ઝા", "price": 160 },
+    { "id": 35, "name": "શેજવાન ગાર્લિક ચીઝ પિઝ્ઝા", "price": 160 },
+    { "id": 36, "name": "પનીર ટિક્કા ચીઝ પિઝ્ઝા", "price": 170 },
+    { "id": 37, "name": "મેક્સિકન ચીઝ પિઝ્ઝા", "price": 170 },
+    { "id": 38, "name": "વેફર્સ ચીઝ પિઝ્ઝા", "price": 170 },
+    { "id": 39, "name": "ચોકલેટ ચીઝ પિઝ્ઝા", "price": 170 },
+    { "id": 40, "name": "માધવ સ્પેશિયલ ચીઝ પિઝ્ઝા", "price": 200 },
+    { "id": 41, "name": "વેજ બર્ગર", "price": 70 },
+    { "id": 42, "name": "વેજ ડબલ ચીઝ બર્ગર", "price": 80 },
+    { "id": 43, "name": "અમેરિકન કોર્ન બર્ગર", "price": 80 },
+    { "id": 44, "name": "વેજ ક્રિસ્પી ચીઝ બર્ગર", "price": 80 },
+    { "id": 45, "name": "શેજવાન ગાર્લિક બર્ગર", "price": 80 },
+    { "id": 46, "name": "પનીર કિંગ બર્ગર", "price": 80 }
+];
+
+let items = englishItems;
+
+
+// Toggle language
+document.getElementById("language-toggle").addEventListener("click", function () {
+    if (items === englishItems) {
+        items = gujaratiItems;
+        this.textContent = "Switch to English";
+    } else {
+        items = englishItems;
+        this.textContent = "Switch to Gujarati";
+    }
+    loadMenu(); // Reload the menu with the selected language
+});
+  
 
 let bill = [];
 let salesData = JSON.parse(localStorage.getItem("salesData")) || {};
