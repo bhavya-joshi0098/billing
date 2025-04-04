@@ -64,10 +64,10 @@ function loadMenu() {
     menu.innerHTML = "";
     items.forEach(item => {
         menu.innerHTML += `
-            <div class="item-card" data-id="${item.id}" onclick="addToBill(${item.id})">
+            <div class="item-card" data-id="${item.id}" onclick="highlightItem(this);addToBill(${item.id});">
                 <div class="card-body">
-                    <h5 class="card-title">${item.name}</h5>
-                    <p class="card-text">₹${item.price}</p>
+                    <h5 class="card-title" style="color:rgb(76, 122, 119);">${item.name}</h5>
+                    <p class="card-text" style="color:rgb(146, 114, 8);">₹${item.price}</p>
                 </div>
             </div>
         `;
