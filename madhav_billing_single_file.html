@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#7b241c">
+<title>Madhav Sandwich & Pizza - Billing</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#7b241c;
+  --red-dark:#5f1b15;
+  --cream:#faf7f1;
+  --card:#fffdf9;
+  --gold:#d7a33d;
+  --green:#3f6338;
+  --text:#292522;
+  --muted:#766e67;
+  --border:#e7ded2;
+  --danger:#b33a2f;
+}
+html,body{min-height:100%;font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--text)}
+body{padding-bottom:86px}
+
+/* Header */
+.header{
+  position:sticky;top:0;z-index:50;
+  background:var(--red);color:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.16)
+}
+.header-main{
+  min-height:62px;padding:10px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{
+  width:40px;height:40px;border-radius:50%;
+  background:#fff;color:var(--red);
+  display:grid;place-items:center;font-size:20px;font-weight:800
+}
+.brand h1{font-size:19px;line-height:1.05;white-space:nowrap}
+.brand p{font-size:10px;opacity:.82;margin-top:3px}
+.header-actions{display:flex;gap:6px}
+.icon-btn,.lang-btn{
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.1);color:#fff;
+  border-radius:8px;min-height:38px;padding:0 10px;
+  font-weight:700;cursor:pointer
+}
+.lang-btn{font-size:12px}
+
+/* Search */
+.search-wrap{padding:0 12px 10px}
+.search{
+  width:100%;height:42px;border:0;border-radius:9px;
+  padding:0 14px 0 40px;font-size:15px;outline:none;
+  background:#fff;color:var(--text);
+  box-shadow:0 1px 5px rgba(0,0,0,.13)
+}
+.search-box{position:relative}
+.search-box span{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  color:#777;font-size:18px
+}
+
+/* Categories */
+.categories{
+  position:sticky;top:122px;z-index:40;
+  background:var(--cream);border-bottom:1px solid var(--border);
+  padding:9px 10px;display:flex;gap:7px;overflow-x:auto;
+  scrollbar-width:none
+}
+.categories::-webkit-scrollbar{display:none}
+.category{
+  flex:0 0 auto;border:1px solid var(--border);
+  background:#fff;border-radius:20px;padding:8px 13px;
+  font-size:12px;font-weight:700;color:#5b5149;cursor:pointer
+}
+.category.active{background:var(--red);border-color:var(--red);color:#fff}
+
+/* Main */
+.main{max-width:700px;margin:auto;padding:12px 10px}
+.section{margin-bottom:18px;scroll-margin-top:175px}
+.section-title{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:4px 2px 8px
+}
+.section-title h2{font-size:16px;color:var(--red)}
+.section-title span{
+  font-size:11px;color:var(--muted);background:#eee5d9;
+  padding:4px 8px;border-radius:12px
+}
+.menu-list{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden
+}
+.item{
+  min-height:58px;padding:8px 9px 8px 12px;
+  display:flex;align-items:center;gap:9px;
+  border-bottom:1px solid #eee7df
+}
+.item:last-child{border-bottom:0}
+.item-info{min-width:0;flex:1}
+.item-name{font-size:14px;font-weight:600;line-height:1.25}
+.item-price{font-size:12px;color:var(--muted);margin-top:3px}
+.qty-controls{display:flex;align-items:center;gap:6px}
+.qty{
+  min-width:22px;text-align:center;font-size:12px;font-weight:700
+}
+.add-btn,.minus-btn,.plus-btn{
+  width:34px;height:34px;border-radius:8px;border:1px solid var(--red);
+  display:grid;place-items:center;font-size:20px;cursor:pointer
+}
+.add-btn,.plus-btn{background:var(--red);color:#fff}
+.minus-btn{background:#fff;color:var(--red)}
+.add-btn:active,.plus-btn:active,.minus-btn:active{transform:scale(.96)}
+.selected{
+  background:#fff8ee;
+  border-left:3px solid var(--gold);
+  padding-left:9px
+}
+
+/* Empty */
+.empty{text-align:center;padding:38px 15px;color:var(--muted);font-size:14px}
+
+/* Bottom cart */
+.cart-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:80;
+  background:#fff;border-top:1px solid var(--border);
+  box-shadow:0 -3px 12px rgba(0,0,0,.1);
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom))
+}
+.cart-inner{max-width:700px;margin:auto;display:flex;align-items:center;gap:9px}
+.cart-summary{flex:1;min-width:0}
+.cart-summary strong{display:block;font-size:14px}
+.cart-summary small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.view-bill{
+  border:0;background:var(--red);color:#fff;
+  border-radius:9px;padding:12px 16px;font-weight:800;
+  font-size:13px;cursor:pointer
+}
+
+/* Drawer/modal */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.5)
+}
+.overlay.show{display:block}
+.sheet{
+  position:absolute;left:0;right:0;bottom:0;
+  max-height:90vh;background:#fff;border-radius:16px 16px 0 0;
+  overflow:hidden;display:flex;flex-direction:column
+}
+.sheet-head{
+  padding:13px 15px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between
+}
+.sheet-head h2{font-size:18px;color:var(--red)}
+.close{
+  width:34px;height:34px;border:0;border-radius:50%;
+  background:#f1ebe3;color:#333;font-size:20px;cursor:pointer
+}
+.bill-content{padding:10px 14px;overflow:auto}
+.bill-row{
+  display:flex;justify-content:space-between;gap:10px;
+  padding:10px 0;border-bottom:1px dashed #ddd
+}
+.bill-name{font-size:13px;font-weight:600}
+.bill-meta{font-size:11px;color:var(--muted);margin-top:3px}
+.bill-total{
+  padding:13px 0;font-size:17px;font-weight:800;
+  display:flex;justify-content:space-between
+}
+.bill-actions{
+  padding:10px 14px 14px;border-top:1px solid var(--border);
+  display:flex;gap:8px
+}
+.action{
+  flex:1;height:44px;border-radius:8px;border:1px solid var(--border);
+  background:#fff;font-weight:700;cursor:pointer
+}
+.action.primary{background:var(--red);border-color:var(--red);color:#fff}
+.action.danger{color:var(--danger);border-color:#e4c3be}
+
+/* Toast */
+.toast{
+  position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(15px);
+  z-index:150;background:#27231f;color:#fff;padding:9px 13px;
+  border-radius:8px;font-size:12px;opacity:0;pointer-events:none;
+  transition:.2s
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Desktop */
+@media(min-width:701px){
+  body{padding-bottom:92px}
+  .header-main,.search-wrap,.main{max-width:760px;margin-left:auto;margin-right:auto}
+  .categories{justify-content:center}
+  .item{min-height:62px}
+  .item-name{font-size:15px}
+  .sheet{left:50%;right:auto;width:620px;transform:translateX(-50%)}
+}
+
+/* Small phones */
+@media(max-width:360px){
+  .brand h1{font-size:17px}
+  .brand p{font-size:9px}
+  .item-name{font-size:13px}
+  .category{padding:7px 10px}
+  .add-btn,.minus-btn,.plus-btn{width:32px;height:32px}
+  .view-bill{padding:11px 12px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-main">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <div>
+        <h1>Madhav</h1>
+        <p id="subtitle">SANDWICH & PIZZA</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="lang-btn" id="languageBtn" onclick="toggleLanguage()">ગુજરાતી</button>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <span>⌕</span>
+      <input id="searchInput" class="search" type="search"
+             placeholder="Search menu..." autocomplete="off">
+    </div>
+  </div>
+</header>
+
+<nav class="categories" id="categories"></nav>
+
+<main class="main" id="menu"></main>
+
+<div class="cart-bar">
+  <div class="cart-inner">
+    <div class="cart-summary">
+      <strong id="cartItems">0 Items</strong>
+      <small id="cartTotal">₹0</small>
+    </div>
+    <button class="view-bill" onclick="openBill()" id="billButton">VIEW BILL</button>
+  </div>
+</div>
+
+<div class="overlay" id="billOverlay" onclick="overlayClick(event)">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="billTitle">Current Bill</h2>
+      <button class="close" onclick="closeBill()">×</button>
+    </div>
+    <div class="bill-content" id="billContent"></div>
+    <div class="bill-actions">
+      <button class="action danger" onclick="clearCart()">Clear</button>
+      <button class="action primary" onclick="printBill()">Print Bill</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================
+   MENU DATA
+   ========================= */
+
+const englishItems = [
+  {id:1,name:"Alu Masala Toasted",price:50,cat:"sandwich"},
+  {id:2,name:"Alu Butter Toasted",price:50,cat:"sandwich"},
+  {id:3,name:"Veg Three Slices",price:60,cat:"sandwich"},
+  {id:4,name:"Veg Toasted",price:60,cat:"sandwich"},
+  {id:5,name:"Masala Veg Toasted",price:60,cat:"sandwich"},
+  {id:6,name:"Veg Three Slices with Cheese",price:80,cat:"sandwich"},
+  {id:7,name:"Veg Double Cheese Sandwich",price:90,cat:"sandwich"},
+  {id:8,name:"Masala Veg Toasted with Cheese",price:90,cat:"sandwich"},
+  {id:9,name:"Schezwan Garlic Toasted",price:60,cat:"sandwich"},
+  {id:10,name:"Schezwan Garlic Toasted with Cheese",price:100,cat:"sandwich"},
+  {id:11,name:"Garlic Cheese Brust",price:100,cat:"sandwich"},
+  {id:12,name:"Green Chilli Cheese",price:100,cat:"sandwich"},
+  {id:13,name:"Wafer's Cheese with Veg Sandwich",price:100,cat:"sandwich"},
+  {id:14,name:"Veg Cheese Grilled",price:100,cat:"sandwich"},
+  {id:15,name:"Pizza Cheese Sandwich",price:100,cat:"sandwich"},
+  {id:16,name:"Mayonise with Cheese",price:100,cat:"sandwich"},
+  {id:17,name:"Panner Tikka Cheese",price:100,cat:"sandwich"},
+  {id:18,name:"Peanut Corn Cheese",price:100,cat:"sandwich"},
+  {id:19,name:"Maxican Chilli Cheese",price:100,cat:"sandwich"},
+  {id:20,name:"Italian Cheese",price:100,cat:"sandwich"},
+
+  {id:21,name:"Garlic Bread",price:90,cat:"garlic"},
+
+  {id:22,name:"Bread Butter",price:30,cat:"sweet"},
+  {id:23,name:"Butter Jam",price:40,cat:"sweet"},
+  {id:24,name:"Chocolate Bread",price:50,cat:"sweet"},
+  {id:25,name:"Chocolate Cheese Bread",price:70,cat:"sweet"},
+  {id:26,name:"Jam Cheese",price:70,cat:"sweet"},
+  {id:27,name:"Pineapple Chocolate Cheese",price:90,cat:"sweet"},
+
+  {id:28,name:"Margreta Cheese Pizza",price:120,cat:"pizza"},
+  {id:29,name:"Margreta Brust Cheese Pizza",price:140,cat:"pizza"},
+  {id:30,name:"Veg Cheese Pizza",price:140,cat:"pizza"},
+  {id:31,name:"Italian Cheese Pizza",price:160,cat:"pizza"},
+  {id:32,name:"Italian Pasta Cheese Pizza",price:180,cat:"pizza"},
+  {id:33,name:"Veg Thick Crushed Cheese Pizza",price:160,cat:"pizza"},
+  {id:34,name:"American Corn Cheese Pizza",price:180,cat:"pizza"},
+  {id:35,name:"Schezwan Garlic Cheese Pizza",price:180,cat:"pizza"},
+  {id:36,name:"Panner Tikka Cheese Pizza",price:190,cat:"pizza"},
+  {id:37,name:"Maxican Cheese Pizza",price:190,cat:"pizza"},
+  {id:38,name:"Waffers Cheese Pizza",price:190,cat:"pizza"},
+  {id:39,name:"Chocolate Cheese Pizza",price:190,cat:"pizza"},
+  {id:40,name:"Madhav Spe. Cheese Pizza",price:220,cat:"pizza"},
+  {id:47,name:"Cheese Jalapeno Pizza",price:190,cat:"pizza"},
+  {id:48,name:"Paneer Makhani Cheese Pizza",price:190,cat:"pizza"},
+
+  {id:41,name:"Veg Burger",price:80,cat:"burger"},
+  {id:42,name:"Veg Double Cheese Burger",price:90,cat:"burger"},
+  {id:43,name:"American Corn Burger",price:90,cat:"burger"},
+  {id:44,name:"Veg Crispy Cheese Burger",price:90,cat:"burger"},
+  {id:45,name:"Schezwan Garlic Burger",price:90,cat:"burger"},
+  {id:46,name:"Panner King Burger",price:90,cat:"burger"},
+
+  {id:53,name:"water",price:10,cat:"addon"},
+  {id:49,name:"Cold drink",price:15,cat:"addon"},
+  {id:50,name:"cold drink",price:20,cat:"addon"},
+  {id:51,name:"Extra Cheese",price:20,cat:"addon"},
+  {id:52,name:"Extra Salad",price:20,cat:"addon"}
+];
+
+const gujaratiItems = [
+  {id:1,name:"આલુ મસાલા ટોસ્ટેડ",price:50,cat:"sandwich"},
+  {id:2,name:"આલુ બટર ટોસ્ટેડ",price:50,cat:"sandwich"},
+  {id:3,name:"વેજ થ્રી સ્લાઇસ",price:60,cat:"sandwich"},
+  {id:4,name:"વેજ ટોસ્ટેડ",price:60,cat:"sandwich"},
+  {id:5,name:"મસાલા વેજ ટોસ્ટેડ",price:60,cat:"sandwich"},
+  {id:6,name:"વેજ થ્રી સ્લાઇસ વિથ ચીઝ",price:80,cat:"sandwich"},
+  {id:7,name:"વેજ ડબલ ચીઝ સેન્ડવિચ",price:90,cat:"sandwich"},
+  {id:8,name:"મસાલા વેજ ટોસ્ટેડ વિથ ચીઝ",price:90,cat:"sandwich"},
+  {id:9,name:"શેજવાન ગાર્લિક ટોસ્ટેડ",price:60,cat:"sandwich"},
+  {id:10,name:"શેજવાન ગાર્લિક ટોસ્ટેડ વિથ ચીઝ",price:100,cat:"sandwich"},
+  {id:11,name:"ગાર્લિક ચીઝ બર્સ્ટ",price:100,cat:"sandwich"},
+  {id:12,name:"ગ્રીન ચિલી ચીઝ",price:100,cat:"sandwich"},
+  {id:13,name:"વેફર્સ ચીઝ વિથ વેજ સેન્ડવિચ",price:100,cat:"sandwich"},
+  {id:14,name:"વેજ ચીઝ ગ્રિલ્ડ",price:100,cat:"sandwich"},
+  {id:15,name:"પિઝ્ઝા ચીઝ સેન્ડવિચ",price:100,cat:"sandwich"},
+  {id:16,name:"મેયોનીઝ વિથ ચીઝ",price:100,cat:"sandwich"},
+  {id:17,name:"પનીર ટિક્કા ચીઝ",price:100,cat:"sandwich"},
+  {id:18,name:"પીનટ કોર્ન ચીઝ",price:100,cat:"sandwich"},
+  {id:19,name:"મેક્સિકન ચિલી ચીઝ",price:100,cat:"sandwich"},
+  {id:20,name:"ઈટાલિયન ચીઝ",price:100,cat:"sandwich"},
+
+  {id:21,name:"ગાર્લિક બ્રેડ",price:90,cat:"garlic"},
+
+  {id:22,name:"બ્રેડ બટર",price:30,cat:"sweet"},
+  {id:23,name:"બટર જામ",price:40,cat:"sweet"},
+  {id:24,name:"ચોકલેટ બ્રેડ",price:50,cat:"sweet"},
+  {id:25,name:"ચોકલેટ ચીઝ બ્રેડ",price:70,cat:"sweet"},
+  {id:26,name:"જામ ચીઝ",price:70,cat:"sweet"},
+  {id:27,name:"પાઈનએપલ ચોકલેટ ચીઝ",price:90,cat:"sweet"},
+
+  {id:28,name:"માર્ગ્રેટા ચીઝ પિઝ્ઝા",price:120,cat:"pizza"},
+  {id:29,name:"માર્ગ્રેટા બર્સ્ટ ચીઝ પિઝ્ઝા",price:140,cat:"pizza"},
+  {id:30,name:"વેજ ચીઝ પિઝ્ઝા",price:140,cat:"pizza"},
+  {id:31,name:"ઈટાલિયન ચીઝ પિઝ્ઝા",price:160,cat:"pizza"},
+  {id:32,name:"ઈટાલિયન પાસ્તા ચીઝ પિઝ્ઝા",price:180,cat:"pizza"},
+  {id:33,name:"વેજ થિક ક્રસ્ટ ચીઝ પિઝ્ઝા",price:160,cat:"pizza"},
+  {id:34,name:"અમેરિકન કોર્ન ચીઝ પિઝ્ઝા",price:180,cat:"pizza"},
+  {id:35,name:"શેજવાન ગાર્લિક ચીઝ પિઝ્ઝા",price:180,cat:"pizza"},
+  {id:36,name:"પનીર ટિક્કા ચીઝ પિઝ્ઝા",price:190,cat:"pizza"},
+  {id:37,name:"મેક્સિકન ચીઝ પિઝ્ઝા",price:190,cat:"pizza"},
+  {id:38,name:"વેફર્સ ચીઝ પિઝ્ઝા",price:190,cat:"pizza"},
+  {id:39,name:"ચોકલેટ ચીઝ પિઝ્ઝા",price:190,cat:"pizza"},
+  {id:40,name:"માધવ સ્પેશિયલ ચીઝ પિઝ્ઝા",price:220,cat:"pizza"},
+  {id:47,name:"ચીઝ જલાપેનો પિઝ્ઝા",price:190,cat:"pizza"},
+  {id:48,name:"પનીર મખાની ચીઝ પિઝ્ઝા",price:190,cat:"pizza"},
+
+  {id:41,name:"વેજ બર્ગર",price:80,cat:"burger"},
+  {id:42,name:"વેજ ડબલ ચીઝ બર્ગર",price:90,cat:"burger"},
+  {id:43,name:"અમેરિકન કોર્ન બર્ગર",price:90,cat:"burger"},
+  {id:44,name:"વેજ ક્રિસ્પી ચીઝ બર્ગર",price:90,cat:"burger"},
+  {id:45,name:"શેજવાન ગાર્લિક બર્ગર",price:90,cat:"burger"},
+  {id:46,name:"પનીર કિંગ બર્ગર",price:90,cat:"burger"},
+
+{id:53,name:"પાણી",price:10,cat:"addon"},
+  {id:49,name:"કોલ્ડ ડ્રિંક",price:15,cat:"addon"},
+ {id:50,name:"કોલ્ડ ડ્રિંક",price:20,cat:"addon"},
+  {id:51,name:"એક્સ્ટ્રા ચીઝ",price:20,cat:"addon"},
+  {id:52,name:"એક્સ્ટ્રા સલાડ",price:20,cat:"addon"},
+];
+
+const categories = [
+  {id:"all", en:"All", gu:"બધું"},
+  {id:"sandwich", en:"🥪 Sandwich", gu:"🥪 સેન્ડવિચ"},
+  {id:"pizza", en:"🍕 Pizza", gu:"🍕 પિઝ્ઝા"},
+  {id:"burger", en:"🍔 Burger", gu:"🍔 બર્ગર"},
+  {id:"garlic", en:"🧄 Garlic Bread", gu:"🧄 ગાર્લિક બ્રેડ"},
+  {id:"sweet", en:"🍞 Sweet", gu:"🍞 સ્વીટ"},
+  {id:"addon", en:"🥗 Add Ons", gu:"🥗 એડ ઓન"}
+];
+
+let gujarati = false;
+let activeCategory = "all";
+let cart = {};
+let searchText = "";
+
+function items(){
+  return gujarati ? gujaratiItems : englishItems;
+}
+
+function categoryName(cat){
+  const c = categories.find(x=>x.id===cat);
+  return c ? (gujarati ? c.gu : c.en) : cat;
+}
+
+function renderCategories(){
+  const el = document.getElementById("categories");
+  el.innerHTML = categories.map(c => `
+    <button class="category ${activeCategory===c.id?"active":""}"
+      onclick="selectCategory('${c.id}')">${gujarati?c.gu:c.en}</button>
+  `).join("");
+}
+
+function renderMenu(){
+  const menu = document.getElementById("menu");
+  const q = searchText.trim().toLowerCase();
+
+  let filtered = items().filter(item=>{
+    const matchesCategory = activeCategory==="all" || item.cat===activeCategory;
+    const matchesSearch = !q || item.name.toLowerCase().includes(q);
+    return matchesCategory && matchesSearch;
+  });
+
+  if(!filtered.length){
+    menu.innerHTML = `<div class="empty">${gujarati?"કોઈ આઇટમ મળી નથી":"No items found"}</div>`;
+    return;
+  }
+
+  let html = "";
+  const groups = activeCategory==="all"
+    ? [...new Set(filtered.map(x=>x.cat))]
+    : [activeCategory];
+
+  groups.forEach(cat=>{
+    const group = filtered.filter(x=>x.cat===cat);
+    if(!group.length)return;
+
+    html += `
+      <section class="section" id="section-${cat}">
+        <div class="section-title">
+          <h2>${categoryName(cat)}</h2>
+          <span>${group.length} ${gujarati?"આઇટમ":"items"}</span>
+        </div>
+        <div class="menu-list">
+          ${group.map(renderItem).join("")}
+        </div>
+      </section>
+    `;
+  });
+
+  menu.innerHTML = html;
+}
+
+function renderItem(item){
+  const qty = cart[item.id] || 0;
+  return `
+    <div class="item ${qty?"selected":""}">
+      <div class="item-info">
+        <div class="item-name">${escapeHtml(item.name)}</div>
+        <div class="item-price">₹${item.price}</div>
+      </div>
+      <div class="qty-controls">
+        ${qty ? `
+          <button class="minus-btn" onclick="changeQty(${item.id},-1)">−</button>
+          <span class="qty">${qty}</span>
+          <button class="plus-btn" onclick="changeQty(${item.id},1)">+</button>
+        ` : `
+          <button class="add-btn" onclick="changeQty(${item.id},1)">+</button>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[c]));
+}
+
+function selectCategory(cat){
+  activeCategory = cat;
+  renderCategories();
+  renderMenu();
+
+  if(cat!=="all"){
+    setTimeout(()=>{
+      const section = document.getElementById("section-"+cat);
+      if(section) section.scrollIntoView({behavior:"smooth",block:"start"});
+    },30);
+  }
+}
+
+function changeQty(id, delta){
+  cart[id] = Math.max(0,(cart[id]||0)+delta);
+  if(cart[id]===0) delete cart[id];
+  renderMenu();
+  updateCart();
+}
+
+function updateCart(){
+  let count=0,total=0;
+  Object.entries(cart).forEach(([id,qty])=>{
+    const item = englishItems.find(x=>x.id===Number(id));
+    if(item){count+=qty;total+=item.price*qty}
+  });
+  document.getElementById("cartItems").textContent =
+    `${count} ${gujarati?(count===1?"આઇટમ":"આઇટમ્સ"):(count===1?"Item":"Items")}`;
+  document.getElementById("cartTotal").textContent = "₹"+total;
+  document.getElementById("billButton").textContent =
+    gujarati ? "બિલ જુઓ" : "VIEW BILL";
+}
+
+function toggleLanguage(){
+  gujarati=!gujarati;
+  document.documentElement.lang = gujarati ? "gu" : "en";
+  document.getElementById("languageBtn").textContent =
+    gujarati ? "English" : "ગુજરાતી";
+  document.getElementById("subtitle").textContent =
+    gujarati ? "સેન્ડવિચ અને પિઝ્ઝા" : "SANDWICH & PIZZA";
+  document.getElementById("searchInput").placeholder =
+    gujarati ? "મેનુ શોધો..." : "Search menu...";
+  renderCategories();
+  renderMenu();
+  updateCart();
+  if(document.getElementById("billOverlay").classList.contains("show")) renderBill();
+}
+
+document.getElementById("searchInput").addEventListener("input",e=>{
+  searchText=e.target.value;
+  renderMenu();
+});
+
+function openBill(){
+  document.getElementById("billOverlay").classList.add("show");
+  renderBill();
+}
+
+function closeBill(){
+  document.getElementById("billOverlay").classList.remove("show");
+}
+
+function overlayClick(e){
+  if(e.target.id==="billOverlay") closeBill();
+}
+
+function renderBill(){
+  const content = document.getElementById("billContent");
+  const entries = Object.entries(cart);
+
+  document.getElementById("billTitle").textContent =
+    gujarati ? "વર્તમાન બિલ" : "Current Bill";
+
+  if(!entries.length){
+    content.innerHTML = `<div class="empty">${gujarati?"હજુ કોઈ આઇટમ ઉમેરેલ નથી":"No items added yet"}</div>`;
+    return;
+  }
+
+  let total=0;
+  content.innerHTML = entries.map(([id,qty])=>{
+    const item = items().find(x=>x.id===Number(id));
+    const baseItem = englishItems.find(x=>x.id===Number(id));
+    const line = baseItem.price*qty;
+    total += line;
+    return `
+      <div class="bill-row">
+        <div>
+          <div class="bill-name">${escapeHtml(item.name)}</div>
+          <div class="bill-meta">₹${baseItem.price} × ${qty}</div>
+        </div>
+        <strong>₹${line}</strong>
+      </div>
+    `;
+  }).join("") + `
+    <div class="bill-total">
+      <span>${gujarati?"કુલ":"Total"}</span>
+      <span>₹${total}</span>
+    </div>
+  `;
+}
+
+function clearCart(){
+  if(!Object.keys(cart).length)return;
+  cart={};
+  renderMenu();
+  updateCart();
+  renderBill();
+  showToast(gujarati?"બિલ સાફ કરવામાં આવ્યું":"Bill cleared");
+}
+
+function printBill(){
+  if(!Object.keys(cart).length){
+    showToast(gujarati?"પહેલા આઇટમ ઉમેરો":"Add items first");
+    return;
+  }
+
+  const entries=Object.entries(cart);
+  let total=0;
+  let rows="";
+
+  entries.forEach(([id,qty])=>{
+    const item=englishItems.find(x=>x.id===Number(id));
+    if(!item)return;
+    const line=item.price*qty;
+    total+=line;
+    rows+=`<tr><td>${item.name}</td><td>${qty}</td><td>₹${line}</td></tr>`;
+  });
+
+  const w=window.open("","_blank","width=420,height=700");
+  if(!w){
+    showToast("Allow pop-ups to print");
+    return;
+  }
+
+  w.document.write(`
+    <!doctype html>
+    <html>
+    <head>
+      <title>Madhav Bill</title>
+      <style>
+        body{font-family:Arial,sans-serif;padding:18px;color:#222}
+        h1{text-align:center;margin:0;font-size:24px}
+        p{text-align:center;margin:4px 0 16px;color:#666}
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:8px 4px;border-bottom:1px solid #ddd;text-align:left;font-size:13px}
+        th:nth-child(2),td:nth-child(2){text-align:center}
+        th:last-child,td:last-child{text-align:right}
+        .total{font-size:18px;font-weight:bold;text-align:right;margin-top:15px}
+      </style>
+    </head>
+    <body>
+      <h1>Madhav</h1>
+      <p>Sandwich & Pizza</p>
+      <table>
+        <thead><tr><th>Item</th><th>Qty</th><th>Amount</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="total">Total: ₹${total}</div>
+      <p>Thank you! Visit again.</p>
+      <script>window.onload=()=>window.print();<\/script>
+    </body>
+    </html>
+  `);
+  w.document.close();
+}
+
+let toastTimer;
+function showToast(message){
+  const t=document.getElementById("toast");
+  t.textContent=message;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove("show"),1800);
+}
+
+/* Initial render */
+renderCategories();
+renderMenu();
+updateCart();
+</script>
+
+</body>
+</html>
